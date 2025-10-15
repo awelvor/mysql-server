@@ -1,25 +1,25 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
-on: [push]
+name: MYSQL CI
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  check-bats-version:
+  test:
     runs-on: ubuntu-latest
+
     env:
       DB_DATABASE: test_db
       DB_USER: root
       DB_PASSWORD: root
+
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: npm install -g bats
-      - run: bats -v
-      - name: Run a one-line script
-        run: echo "Hello, world!"
-      - run: sudo apt install mysql-server
-     
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Start MySQL
         run: |
           sudo /etc/init.d/mysql start
           mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PASSWORD
+      # Add more steps for testing and other tasks
