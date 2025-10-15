@@ -19,3 +19,7 @@ jobs:
         run: echo "Hello, world!"
       - run: sudo apt install mysql-server
       - run: sudo mysql -u root
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PASSWORD
